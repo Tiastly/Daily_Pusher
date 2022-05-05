@@ -1,71 +1,74 @@
-import MensaAPI as mensa
-from CuteCat import *
-import time
+""" 接收事件类型
+    on_group_msg = on('EventGroupMsg')
+    on_friend_msg = on('EventFriendMsg')
+    on_received_transfer = on('EventReceivedTransfer')
+    on_friend_vertify = on('EventFriendVerify')
+    on_sendout_msg = on('EventSendOutMsg')
+    on_sys_msg = on('EventSysMsg')
+    on_login = on('EventLogin')
+"""
+""" 发送事件类型
+    def SendTextMsg(self, to_wxid : str, msg : str):...
+    def SendImageMsg(self, to_wxid : str, msg : str):...
+    def SendVideoMsg(self, to_wxid : str, msg : str):...
+    def SendFileMsg(self, to_wxid : str, msg : str):...
+    def GetRobotName(self) -> str:...
+    def GetFriendList(self) -> List[Dict[str, Any]]:...
+    def GetGroupList(self) -> List[Dict[str, Any]]:...
+    def GetGroupMemberList(self, group_wxid : str) -> List[Dict[str, Any]]:...
+    def GetGroupMemberInfo(self, group_wxid : str, member_wxid : str) -> Dict[str, Any]:...
+    def AcceptTransfer(self, to_wxid : str, msg : str):...
+    def AgreeGroupInvite(self, msg : str):...
+    def AgreeeFriendVerify(self, msg : str):...
+    def GetAppDir(self) -> str:...
+"""
 
+from CuteCat import *
+from Essential import *
+from Mensa import *
+from Conversation import *
+from Translate import *
+
+
+
+# 生成机器人实例
 bot = CuteCat( api_url = 'http://127.0.0.1:8090' , robot_wxid = 'wxid_8xyxdxd49tbp22')
 
-def at_me(msg)->bool:
-    if 'wxid=wxid_8xyxdxd49tbp22' in msg['msg'] and '@at' in msg['msg']:
-        return True
-    else:
-        return False
-
-def trigger(msg, trigger_word:str)->bool:
-    if trigger_word in msg['msg']:
-        return True
-    else:
-        return False
 
 
-# @bot.on('EventFriendMsg')
-# def eventfrinendmsg(msg):
-#     print(msg)
-#     if msg['msg'] == '嘉然今天吃什么':
-#         menus = mensa.get_tages_menu(mensa.id_list["ostfalia_mensa"], mensa.today)
-#         bot.SendTextMsg(to_wxid= msg.from_wxid, msg = str(mensa.get_menu_name(menus)))
+@bot.on('EventFriendMsg')
+def on_admin_msg(msg):
+  # 大妈的有限状态机, 一次对话只能最多触发一个函数
 
-# @bot.on('EventGroupMsg')
-# def eventgroupmsg(msg):
-#     print(msg)
-#     if msg['msg'] == '嘉然今天吃什么':
-#         menus = mensa.get_tages_menu(mensa.id_list["ostfalia_mensa"], mensa.today)
-#         bot.SendTextMsg(to_wxid= msg.from_wxid, msg = str(mensa.get_menu_name(menus)))
+  # 优先度 1
+  if trigger(msg, "菜单"): pull_mensa_menu(bot, msg) # 拉取食堂菜单, 关键词{菜单}
+  elif trigger(msg, "/help"): help(bot, msg) # 帮助, 关键词{@+/help}
+  elif trigger(msg, "翻译"): translate_to_zh(bot, msg) # 翻译, 关键词{翻译}
+  # 优先度 10
+  else: ask(bot, msg) # 对话, 无关键词
+
 
 
 @bot.on('EventGroupMsg')
-# Priority: 10
-def ping(msg):
-    print(msg)
-    # 严格等于
-    if msg['msg'] == '[@at,nickname=食堂大妈,wxid=wxid_8xyxdxd49tbp22]  ':
-      bot.SendTextMsg(to_wxid= msg.from_wxid, msg = "什么事小伙子")
+#匹配群信息
+def on_general_group_msg(msg):
+  # 大妈的有限状态机, 一次对话只能最多触发一个函数
 
-@bot.on('EventGroupMsg')
-# Priority: 1
-def pull_mensa_menu(msg):
-    print(msg)
-    if at_me(msg) and trigger(msg, "菜单"):
-        bot.SendTextMsg(to_wxid= msg.from_wxid, msg = "小伙子别急,今天的菜单马上来")
-        time.sleep(2)
-        menus = mensa.get_tages_menu(mensa.id_list["ostfalia_mensa"], mensa.today)
-        format_text = ""
-        name = mensa.get_menu_name(menus)
-        price = mensa.get_menu_price(menus)
-        nutritional_values = mensa.get_menu_nutritional_values(menus)
-        # bot.SendTextMsg(to_wxid= "20479741621@chatroom", msg = "[@emoji=\uD83C\uDF1F]Mensa今天的菜单是：")
-        for i in range(mensa.get_menu_count(menus)):
-            format_text +=  str(i+1) + ". " + name[i] + "\n" +\
-                            "- 学生价: " + str(price[i]) + "欧" + "\n" +\
-                            "- 热量(/100g): " + str(nutritional_values[i]["caloric_value"])
-                            # "- 脂肪(/100g): " + str(nutritional_values[i]["fat"]) + "\n" +\
-                            # "- 碳水(/100g): " + str(nutritional_values[i]["carbohydrates"]) + "\n" +\
-                            # "- 糖份(/100g): " + str(nutritional_values[i]["sugar"]) + "\n" +\
-                            # "- 蛋白质(/100g): " + str(nutritional_values[i]["protein"]) + "\n" +\
-            bot.SendTextMsg(to_wxid= msg.from_wxid, msg = format_text)
-            format_text = ""
-            time.sleep(1)
-        # bot.SendTextMsg(to_wxid= msg.from_wxid, msg = "")
+  # 优先度 0
+  # if at_me(msg): ping(bot, msg) # 测试, 关键词{@}
+  if at_me(msg) and trigger(msg, "/help"): help(bot, msg) # 帮助, 关键词{@+/help}
+  # 优先度 1
+  elif at_me(msg) and trigger(msg, "菜单"): pull_mensa_menu(bot, msg) # 拉取食堂菜单, 关键词{@+菜单}
+  elif at_me(msg) and trigger(msg, "翻译"): translate_to_zh(bot, msg) # 翻译, 关键词{翻译}
+  elif at_me(msg) and trigger(msg, "js"): js_helper(bot, msg) # js辅助, 关键词{@+js}
+  # 优先度 10
+  elif at_me(msg): ask(bot, msg) # 对话, 无关键词
+  # elif trigger(msg, "大妈"): ask(bot, msg)
 
+
+
+# 开始监听
+# bot.SendTextMsg(to_wxid= '20496408956@chatroom', msg = '上班')
 bot.run()
 
 # TODO: 1.关键词字典触发
