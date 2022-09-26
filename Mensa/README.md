@@ -11,8 +11,11 @@
 - [x] Mensa API -> stw-on.de
 - [ ] 增加天气模块 ->
 - [ ] 增加翻译模块 -> deepl
-- [ ] 增加食物图片模块
+- [x] 增加食物图片模块 ->serpapi ==> google?
 - [ ] 增加xx模块
 
 # 好好吃饭 
 大切なものです
+# 包
+pip install -U wxpusher
+pip install google-search-results

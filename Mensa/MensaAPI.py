@@ -16,7 +16,7 @@ def get_tages_menu(id: str, isoDate: str) -> dict:
     """
     url = f"https://sls.api.stw-on.de/v1/locations/{id}/menu/{isoDate}"
     print("Sendding request: " + url)
-    r = json.loads(requests.get(url).text)
+    r = requests.get(url).json()
     return r
 
 def get_menu_count(menus: dict) -> int:
@@ -38,16 +38,16 @@ def get_menu_name(menus: dict) -> list:
         menu_names.append(menu["name"])
     return menu_names
 
-def get_menu_foodtype(menus: dict) -> list:
+def get_menu_lane(menus: dict) -> list:
     r"""Get food type from menu dict.
 
     :param menus: dict from get_tages_menu().
     :return: list of food type.
     """
-    menu_prices = []
+    menu_lane = []
     for menu in menus["meals"]:
-        menu_prices.append(menu["price"]["student"])
-    return menu_prices
+        menu_lane.append(menu["lane"]["name"])
+    return menu_lane
 
 def get_menu_price(menus: dict) -> list:
     r"""Get menu price from menu dict.
@@ -77,6 +77,6 @@ if __name__ == "__main__":
   dic = get_tages_menu(id_list["ostfalia_mensa"], today)
   print(get_menu_count(dic))
   print(get_menu_name(dic))
-  print()
+  print(get_menu_lane(dic))
   print(get_menu_price(dic))
   print(get_menu_nutritional_values(dic))

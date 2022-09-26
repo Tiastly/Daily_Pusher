@@ -19,11 +19,13 @@ def run():
     content = ""
     menu = Mensa.pull_mensa_menu()
     week_day = time.strftime("%A", time.localtime()) 
-    if menu == None:
+    
+    if len(menu) == 0:
         endword = "Schönes Wochenende 😉"
     else:
         endword = "guten Appetit 😋"
     # template = open("template.html",encoding='UTF-8').read()
+
     content_format = f"""
     <div align="center">
         <h1>Thank you for the subscribe 💖</h1>
