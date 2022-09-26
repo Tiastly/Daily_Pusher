@@ -14,21 +14,19 @@ def random_color():
         color_str += random.choice(color_code)
     return color_str
 
-def get_week_day():
-    week_list = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"]
-    week_day = week_list[datetime.date(
-        datetime.strptime(today, "%Y-%m-%d %H:%M:%S")).weekday()]
-    return week_day
-
 def run():
     pusher = WxPusher()
     content = ""
     menu = Mensa.pull_mensa_menu()
     week_day = time.strftime("%A", time.localtime()) 
+    if menu == None:
+        endword = "Schönes Wochenende 😉"
+    else:
+        endword = "guten Appetit 😋"
     # template = open("template.html",encoding='UTF-8').read()
     content_format = f"""
     <div align="center">
-        <h1>Thank you for the subscribe</h1>
+        <h1>Thank you for the subscribe 💖</h1>
     </div>
     <hr><b>Today is:</b>
     <font color={random_color()}>{week_day}</font>
@@ -38,14 +36,11 @@ def run():
     <font color={random_color()}>{menu}</font>
     <hr>
     <div align="center">
-        <h1>guten Appetit 😋</h1>
+        <h1>{endword}</h1>
     </div>
     """
     
     pusher.send_message(content = content_format ,uids = uids,token = token)
-
-
-    
 
     # push.send_message(content=contents, uids=uids, token=token)
     

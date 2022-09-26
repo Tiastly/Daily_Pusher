@@ -2,7 +2,7 @@ import requests
 import json
 import datetime
 
-# kowned id list 
+# mensa id list 
 id_list = {"ostfalia_mensa": "130"}
 # get isoDate from today
 today = datetime.date.today()
@@ -12,9 +12,9 @@ def get_tages_menu(id: str, isoDate: str) -> dict:
 
     :param id: Die ID der Mensa. Siehe Liste aller Mensen: https://api.stw-on.de/#liste-aller-mensen
     :param isoDate: Datum nach ISO 8601 (z.B. 2020-06-18)
-    :return: dict that includes the menu.
+    :return: dict of  menu.
     """
-    url = "https://sls.api.stw-on.de/v1/locations/{id}/menu/{isoDate}".format(id=id, isoDate=isoDate)
+    url = f"https://sls.api.stw-on.de/v1/locations/{id}/menu/{isoDate}"
     print("Sendding request: " + url)
     r = json.loads(requests.get(url).text)
     return r
@@ -38,11 +38,22 @@ def get_menu_name(menus: dict) -> list:
         menu_names.append(menu["name"])
     return menu_names
 
+def get_menu_foodtype(menus: dict) -> list:
+    r"""Get food type from menu dict.
+
+    :param menus: dict from get_tages_menu().
+    :return: list of food type.
+    """
+    menu_prices = []
+    for menu in menus["meals"]:
+        menu_prices.append(menu["price"]["student"])
+    return menu_prices
+
 def get_menu_price(menus: dict) -> list:
     r"""Get menu price from menu dict.
 
     :param menus: dict from get_tages_menu().
-    :return: list that includes the menu price.
+    :return: list of menu price.
     """
     menu_prices = []
     for menu in menus["meals"]:
@@ -66,5 +77,6 @@ if __name__ == "__main__":
   dic = get_tages_menu(id_list["ostfalia_mensa"], today)
   print(get_menu_count(dic))
   print(get_menu_name(dic))
+  print()
   print(get_menu_price(dic))
   print(get_menu_nutritional_values(dic))

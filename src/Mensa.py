@@ -23,13 +23,18 @@ def pull_mensa_menu(bot: CuteCat, msg: dict) -> None:
     nutritional_values = mensa.get_menu_nutritional_values(menus)
     # bot.SendTextMsg(to_wxid= "20479741621@chatroom", msg = "[@emoji=\uD83C\uDF1F]Mensa今天的菜单是：")
     for i in range(mensa.get_menu_count(menus)):
-        format_text +=  str(i+1) + ". " + translate_raw_text_zh(name[i]) + name[i] + "\n" +\
+        if(name[i] == "日式沙拉"):
+            format_text +=  str(i+1) + ". " + "每日沙拉" + name[i] + "\n" +\
                         "- 学生价: " + str(price[i]) + "欧" + "\n" +\
                         "- 热量(/100g): " + str(nutritional_values[i]["caloric_value"])
-                        # "- 脂肪(/100g): " + str(nutritional_values[i]["fat"]) + "\n" +\
-                        # "- 碳水(/100g): " + str(nutritional_values[i]["carbohydrates"]) + "\n" +\
-                        # "- 糖份(/100g): " + str(nutritional_values[i]["sugar"]) + "\n" +\
-                        # "- 蛋白质(/100g): " + str(nutritional_values[i]["protein"]) + "\n" +\
+        else:
+            format_text +=  str(i+1) + ". " + translate_raw_text_zh(name[i]) + name[i] + "\n" +\
+                            "- 学生价: " + str(price[i]) + "欧" + "\n" +\
+                            "- 热量(/100g): " + str(nutritional_values[i]["caloric_value"])
+                            # "- 脂肪(/100g): " + str(nutritional_values[i]["fat"]) + "\n" +\
+                            # "- 碳水(/100g): " + str(nutritional_values[i]["carbohydrates"]) + "\n" +\
+                            # "- 糖份(/100g): " + str(nutritional_values[i]["sugar"]) + "\n" +\
+                            # "- 蛋白质(/100g): " + str(nutritional_values[i]["protein"]) + "\n" +\
         bot.SendTextMsg(to_wxid= msg.from_wxid, msg = format_text)
         format_text = ""
         time.sleep(1)

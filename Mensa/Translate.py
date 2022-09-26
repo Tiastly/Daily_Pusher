@@ -17,3 +17,6 @@ translator = deepl.Translator(auth_key)
 def translate_raw_text_zh(text: str) -> str:
     result = translator.translate_text(text, target_lang="ZH")
     return result.text
+
+if __name__ == "__main__":
+    translate_raw_text_zh("Guten Tag")
