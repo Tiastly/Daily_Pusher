@@ -17,6 +17,6 @@
 
 # 好好吃饭 
 大切なものです
-# 包
-pip install -U wxpusher
-pip install google-search-results
+# 用到的库
+`pip install -U wxpusher`
+`pip install google-search-results`
