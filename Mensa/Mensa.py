@@ -17,8 +17,11 @@ def pull_mensa_menu():
                         "- 学生价: " + str(price[i]) + "欧" + "\n" +\
                         "- 热量(/100g): " + str(nutritional_values[i]["caloric_value"])+'\n'
                         # "- "+translate_raw_text_zh(name[i]) + '\n' +\
-        if "Essen" in lena[i] :
-            text += get_foodpic(name[i]) + '\n'
+        try:
+            if "Essen" in lena[i] :
+                text += get_foodpic(name[i]) + '\n'
+        except:
+            text += "find some error with food pictures 😢" + '\n'
     #     # format_text +=  str(i+1) + ". " + translate_raw_text_zh(name[i]) + name[i] + "\n" +\
     #     #                 "- 学生价: " + str(price[i]) + "欧" + "\n" +\
     #     #                 "- 热量(/100g): " + str(nutritional_values[i]["caloric_value"])

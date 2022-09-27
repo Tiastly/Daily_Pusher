@@ -1,25 +1,38 @@
 import Mensa
 from wxpusher import WxPusher
-import time
-# from datetime import datetime, timedelta
-import random
-token = "AT_fTLp0Wb5B2v1TxpGjGLAtP3PX1JdtNIz" #app token
-uids = ["UID_HblsALCQJ5YkAWIJcmJMuhPqDmn8"] #subscribe
-# TOPIC_IDS = [ '7526']
 
-def random_color():
+import time
+import random
+import json
+
+token = "AT_fTLp0Wb5B2v1TxpGjGLAtP3PX1JdtNIz" #app token
+# uids = ["UID_HblsALCQJ5YkAWIJcmJMuhPqDmn8"] #subscribe
+TOPIC_IDS = [ '7526']
+
+pusher = WxPusher()
+
+def random_color() -> str:
     color_code = "0123456789ABCDEF"
     color_str = ""
-    for num in range(6):
+    for _ in range(6):
         color_str += random.choice(color_code)
     return color_str
 
 def run():
     pusher = WxPusher()
+    def get_uids(WxPusher:pusher) -> list:
+        uids = set()
+        users = pusher.query_user(page = 1,page_size = 20,token = token)
+        for i in range(len(users['data']['records'])):
+            uids.add(users['data']['records'][i]['uid'])
+        return list(uids)
+
     content = ""
+    uids = get_uids(pusher)
+
     menu = Mensa.pull_mensa_menu()
     week_day = time.strftime("%A", time.localtime()) 
-    
+
     if len(menu) == 0:
         endword = "Schönes Wochenende 😉"
     else:
@@ -41,10 +54,11 @@ def run():
         <h1>{endword}</h1>
     </div>
     """
-    
-    pusher.send_message(content = content_format ,uids = uids,token = token)
+    # applications
+    pusher.send_message(content = content_format ,uids = uids ,token = token)
 
     # push.send_message(content=contents, uids=uids, token=token)
     
 if __name__ == "__main__":
     run()
+
