@@ -1,18 +1,22 @@
-## 使用框架
-- 可爱猫5
-- python-CuteCat
-编译好的python脚本二进制文件在`/dist`下可以找到(需要配合可爱猫一起用)
+# what's new
+- 从main-branch的bot形式改成了现在的用pub-sub-mode的形式
+- user在wxPusher中订阅后就可以每天定时收到推送
 
-## 基本逻辑
-微信并没有开放API接口, 可爱猫是一个实现了微信基本功能API的第三方软件, 受于微信限制目前只能在Windows下运行. 
-可爱猫通过一个iHttp插件可以将收取的消息暴露给运行脚本的服务器, 服务器在处理完信息之后又可以返回给可爱猫进行发送. 可爱猫在这里相当于充当了一个中间件. 而 python-CuteCat 库则是符合iHttp的Python实现, 这样使用Python就可以和微信进行通信了
-主要触发逻辑都在`/src/main.py`里, 其中调用了`MensaAPI.py`的食堂API
-注释以后补
+# To do
+- Functions
+- [x] 增加主动获取uid
+- [x] 周末和平时区别
+- [ ] 格式模块加载化
+- About API 
+- [x] Mensa API -> stw-on.de
+- [ ] 增加天气模块 ->
+- [ ] 增加翻译模块 -> deepl
+- [x] 增加食物图片模块 ->serpapi 
+  后期可能换成Google的API 
+- [ ] 增加xx模块
 
-## 注意
-- 仓库没有包括可爱猫软件本体和旧版本的微信客户端(wx客户端需要和可爱猫匹配)
-- `python-magic`库有时候会出现问题, 可以换成 `python-magic-bin`
-
-## TODO
-- [ ] 更改字符串匹配为字典匹配触发
-- [ ] 部署脚本到树莓派,win只跑CuteCat客户端
+# 好好吃饭 
+大切なものです
+# 包
+pip install -U wxpusher
+pip install google-search-results

@@ -1,6 +1,0 @@
-deepl==1.6.0
-Flask==2.1.2
-openai==0.18.1
-PyInstaller==5.0.1
-python_magic==0.4.25
-requests==2.27.1
