@@ -41,7 +41,7 @@ def run():
 
     content_format = f"""
     <div align="center">
-        <h1>Thank you for the subscribe 💖</h1>
+        <h1>✨ Thank you for the subscribe ✨</h1>
     </div>
     <hr><b>Today is:</b>
     <font color={random_color()}>{week_day}</font>
