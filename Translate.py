@@ -1,22 +1,42 @@
-# 大妈作为翻译机器人
+# translate module
 
-import deepl
+from aliyunsdkcore.client import AcsClient
+from aliyunsdkcore.acs_exception.exceptions import ClientException
+from aliyunsdkcore.acs_exception.exceptions import ServerException
+from aliyunsdkalimt.request.v20181012 import TranslateGeneralRequest
 
-auth_key="061ff7db-0d41-e41f-43d5-023e19183457:fx"
-translator = deepl.Translator(auth_key)
+import json
+import os
 
+acc_id = os.getenv('Aliyun_acc_id')
+acc_key = os.getenv('Aliyun_acc_key')
 
-# def translate_to_zh(bot: CuteCat, msg: dict) -> str:
-#     text = text.replace("翻译", "")
-#     text = get_raw_text(msg)
-#     print("翻译:"+text)
-#     result = translator.translate_text(text, target_lang="ZH")
-#     bot.SendTextMsg(to_wxid= msg.from_wxid, msg = result.text)
-#     print("翻译结果: "+result.text)
+def translate_zh(text:str):
 
-def translate_raw_text_zh(text: str) -> str:
-    result = translator.translate_text(text, target_lang="ZH")
-    return result.text
+    client = AcsClient(
+        f"{acc_id}",  # 阿里云账号的Access Key ID
+        f"{acc_key}",# 阿里云账号Access Key Secret
+        # "cn-hangzhou"  # 地域ID
+        "eu-west-1"
+    )
+    
+    try:
+        request = TranslateGeneralRequest.TranslateGeneralRequest()
+        request.set_SourceLanguage("de")
+        request.set_SourceText(text)
+        request.set_FormatType("text")
+        request.set_TargetLanguage("zh")
+
+        response = json.loads(client.do_action_with_exception(request))
+        print(response)
+        ans = response['Data']['Translated']
+        code = response['Code']# detail see https://help.aliyun.com/document_detail/158244.html?spm=a2c4g.11186623.0.0.6c1a5c2aHeFwnV
+        print(f"{ans},code = {code}")
+    except Exception as e:
+        print(e)
+        ans = "cannot translate 😢"
+    return ans
 
 if __name__ == "__main__":
-    translate_raw_text_zh("Guten Tag")
+    print(translate_zh("Kartoffel-Gemüse-Omelett"))
+

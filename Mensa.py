@@ -1,11 +1,10 @@
-# mensa text
+# menu module
 import MensaAPI as mensa
 from Pictures import *
-# from Translate import *
+from Translate import *
 # import time
 
 def pull_mensa_menu():
-
     menus = mensa.get_tages_menu(mensa.id_list["ostfalia_mensa"], mensa.today)
     text = ""
     name = mensa.get_menu_name(menus)
@@ -14,13 +13,15 @@ def pull_mensa_menu():
     nutritional_values = mensa.get_menu_nutritional_values(menus)
     for i in range(mensa.get_menu_count(menus)):
         text +=  str(i+1) + ". " +  name[i] + "\n" +\
+                        "- 翻译:"+translate_zh((name[i])) + '\n' +\
                         "- 学生价: " + str(price[i]) + "欧" + "\n" +\
                         "- 热量(/100g): " + str(nutritional_values[i]["caloric_value"])+'\n'
-                        # "- "+translate_raw_text_zh(name[i]) + '\n' +\
+                        
         try:
             if "Essen" in lena[i] :
                 text += get_foodpic(name[i]) + '\n'
-        except:
+        except Exception as e:
+            print(e)
             text += "find some error with food pictures 😢" + '\n'
     #     # format_text +=  str(i+1) + ". " + translate_raw_text_zh(name[i]) + name[i] + "\n" +\
     #     #                 "- 学生价: " + str(price[i]) + "欧" + "\n" +\
@@ -31,5 +32,5 @@ def pull_mensa_menu():
     #                     # "- 糖份(/100g): " + str(nutritional_values[i]["sugar"]) + "\n" +\
     #                     # "- 蛋白质(/100g): " + str(nutritional_values[i]["protein"]) + "\n" +\
     
-    # print(text)
+    print(text)
     return text
