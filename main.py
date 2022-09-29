@@ -1,19 +1,25 @@
-import Mensa
 from wxpusher import WxPusher
+from WeatherAPI import WeatherReport
+import Mensa
 
-from enum import Enum
+
+
 import json
 import random
-import time
+import datetime
 
 token = "AT_fTLp0Wb5B2v1TxpGjGLAtP3PX1JdtNIz" #app token
 uids = ["UID_HblsALCQJ5YkAWIJcmJMuhPqDmn8"] #subscribe
 TOPIC_IDS = [ '7526']
 
-class Endingwords(Enum):
-    NORMAL = "guten Appetit 😋" 
-    WEEKEND = "Schönes Wochenende 😉"
-    HOLIDAY = "No Work Today! 😴"
+endingwords ={
+    "NORMAL"  : "guten Appetit 😋" ,
+    "WEEKEND" : "Schönes Wochenende 😉",
+    "HOLIDAY" : "No Work Today! 😴",
+    }
+
+today = datetime.date.today()
+week_day = today.strftime("%A") 
 
 def random_color() -> str:
     color_code = "0123456789ABCDEF"
@@ -21,6 +27,12 @@ def random_color() -> str:
     for _ in range(6):
         color_str += random.choice(color_code)
     return color_str
+
+def weather_module() -> str:
+    wr = WeatherReport(today = today)
+    weather_text = "{}°C - {}°C\n".format(wr.get_highest(),wr.get_lowest())+\
+                    wr.get_weather_icon()
+    return weather_text
 
 def get_uids(pusher:WxPusher) -> list:
         uids = set()
@@ -31,40 +43,42 @@ def get_uids(pusher:WxPusher) -> list:
 
 def run():
     pusher = WxPusher()
-    content = ""
     # uids = get_uids(pusher)
-    week_day = time.strftime("%A", time.localtime()) 
-
-    if "Saturday" or "Sonnday" in week_day:
+    menu = Mensa.pull_mensa_menu()
+    if week_day == 5 or week_day == 6:
         menu = "Today has no Menu"
-        endword = Endingwords.WEEKEND.value
-        endword = Endingwords.HOLIDAY.value
+        endword = endingwords['WEEKEND']
+        if not menu:
+            endword = endingwords['HOLIDAY']
     else:
-        # menu = Mensa.pull_mensa_menu()
-        menu = ""
-        endword = Endingwords.NORMAL.value
-    # template = open("template.html",encoding='UTF-8').read()
+        endword = endingwords['NORMAL']
+
 
     content_format = f"""
-    <div align="center">
-        <h1>Thank you for the subscribe ✨</h1>
-    </div>
-    <hr><b>Today is:</b>
-    <font color={random_color()}>{week_day}</font>
+            <div align="center">
+                <h1>✨ Thank you for the subscribe ✨</h1>
+            </div>
+            <hr><b>Today is:</b>
+            <font color={random_color()}>{week_day}</font>
 
-    <hr>
-    <b>Today's Menu: </b>
-    <font color={random_color()}>{menu}</font>
-    <hr>
-    <div align="center">
-        <h1>{endword}</h1>
-    </div>
+            <hr><b>Today's Weather in Braunschweig:</b>
+            <font color={random_color()}>{weather_module()}</font>
+
+            <hr>
+            <b>Today's Menu: </b>
+            <font color={random_color()}>{menu}</font>
+
+            <hr>
+            <div align="center">
+                <h1>{endword}</h1>
+            </div>
     """
+
     # applications
     pusher.send_message(content = content_format ,uids = uids ,token = token)
 
     # push.send_message(content=contents, uids=uids, token=token)
-    
+    print("Success!Check it in WeChat")
 if __name__ == "__main__":
     run()
 
