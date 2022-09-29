@@ -8,19 +8,20 @@
 # To do
 ## Functions
 - [x] 通过request主动获取uid
-- [ ] 没有menu时候(周末/节假日)显示和平时不一样
-- [ ] 推送的文本格式拆开变成一个个模块
+- [x] 没有menu时候(周末/节假日)显示和平时不一样
+- [x] 推送的文本格式拆开变成一个个模块
 
 ## API & Source
 - [x] Mensa API -> stw-on.de
-- [ ] 天气模块 -> dwd
-- [x] 翻译模块 -> Aliyun 可选:Azure Translator
+- [x] 天气模块 -> dwd & bright sky
+- [x] 翻译模块 -> Aliyun  
+  alternative:Azure Translator
 - [x] 食物图片模块 -> serpapi 
-  后期可能换成Google的API 
+  alternative: Google的API 
 - [ ] xx模块
 ## 优化(?)
 - [ ] 运行日志
-- [ ] 改成异步模式
+- [ ] ~~改成异步模式~~
 
 # 好好吃饭 
 大切なものです🌟
@@ -31,3 +32,4 @@
 
 ```pip install aliyun-python-sdk-core-v3```\
 ```pip install aliyun-python-sdk-alimt```\
+

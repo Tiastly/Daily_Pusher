@@ -32,9 +32,11 @@ def translate_zh(text:str):
         ans = response['Data']['Translated']
         code = response['Code']# detail see https://help.aliyun.com/document_detail/158244.html?spm=a2c4g.11186623.0.0.6c1a5c2aHeFwnV
         print(f"{ans},code = {code}")
+
     except Exception as e:
         print(e)
         ans = "cannot translate 😢"
+        
     return ans
 
 if __name__ == "__main__":

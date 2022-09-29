@@ -16,7 +16,6 @@ def pull_mensa_menu():
                         "- 翻译:"+translate_zh((name[i])) + '\n' +\
                         "- 学生价: " + str(price[i]) + "欧" + "\n" +\
                         "- 热量(/100g): " + str(nutritional_values[i]["caloric_value"])+'\n'
-                        
         try:
             if "Essen" in lena[i] :
                 text += get_foodpic(name[i]) + '\n'
@@ -32,5 +31,5 @@ def pull_mensa_menu():
     #                     # "- 糖份(/100g): " + str(nutritional_values[i]["sugar"]) + "\n" +\
     #                     # "- 蛋白质(/100g): " + str(nutritional_values[i]["protein"]) + "\n" +\
     
-    print(text)
+    # print(text)
     return text

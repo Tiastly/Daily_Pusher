@@ -1,7 +1,7 @@
-#get the pic of the food
+#pic of the food module
 from serpapi import GoogleSearch
 import json
-
+import os
 
 def get_foodpic(food: str) -> str:
     r'''
@@ -10,11 +10,12 @@ def get_foodpic(food: str) -> str:
     :param food: search keyword.
     :return: the first and second thumbnail of the food
     '''
+    key = os.getenv("pic_key")
     params = {
     "engine": "google",
     "location": "Germany",
     "q": f"{food}",
-    "api_key": "6c54213a28cb3527f4fff27fd046d03eff8dfe64a0ddd2066df38c264651a631"
+    "api_key":f"{key}",
     }
     
     organic_results = []
@@ -25,9 +26,6 @@ def get_foodpic(food: str) -> str:
 
     # print(json.dumps(organic_results, indent=4))
 
-    # with open("rwa.json",'r',encoding='utf-8') as f:
-    #     organic_results = json.loads(f.read())
-    #     print(json.dumps(organic_results, indent=4))
 
     thumbnail = []
     text_template = ""

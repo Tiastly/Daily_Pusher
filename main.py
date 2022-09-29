@@ -2,15 +2,15 @@ from wxpusher import WxPusher
 from WeatherAPI import WeatherReport
 import Mensa
 
-
-
 import json
 import random
 import datetime
+import os
 
-token = "AT_fTLp0Wb5B2v1TxpGjGLAtP3PX1JdtNIz" #app token
-uids = ["UID_HblsALCQJ5YkAWIJcmJMuhPqDmn8"] #subscribe
-TOPIC_IDS = [ '7526']
+
+token = os.getenv("wx_token") #app token
+uids = [os.getenv("wx_uids")] #subscribe
+topicIds = [ '7526']
 
 endingwords ={
     "NORMAL"  : "guten Appetit 😋" ,
@@ -75,10 +75,11 @@ def run():
     """
 
     # applications
-    pusher.send_message(content = content_format ,uids = uids ,token = token)
+    pusher.send_message(content = content_format ,uids = uids ,token = token, topicIds=topicIds)
 
     # push.send_message(content=contents, uids=uids, token=token)
-    print("Success!Check it in WeChat")
+    print("Success!Check it in WeChat:)")
+
 if __name__ == "__main__":
     run()
 

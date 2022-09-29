@@ -6,7 +6,6 @@ import datetime
 id_list = {"ostfalia_mensa": "130"}
 # get isoDate from today
 today = datetime.date.today()
-
 def get_tages_menu(id: str, isoDate: str) -> dict:
     r"""Get menu from mensa Web API.
 
@@ -74,9 +73,9 @@ def get_menu_nutritional_values(menus: dict) -> list:
 
 
 if __name__ == "__main__":
-  dic = get_tages_menu(id_list["ostfalia_mensa"], today)
-  print(get_menu_count(dic))
-  print(get_menu_name(dic))
-  print(get_menu_lane(dic))
-  print(get_menu_price(dic))
-  print(get_menu_nutritional_values(dic))
+    dic = get_tages_menu(id_list["ostfalia_mensa"], today)
+    print(get_menu_count(dic))
+    print(get_menu_name(dic))
+    print(get_menu_lane(dic))
+    print(get_menu_price(dic))
+    print(get_menu_nutritional_values(dic))
