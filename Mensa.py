@@ -11,6 +11,8 @@ def pull_mensa_menu():
     lena = mensa.get_menu_lane(menus)
     price = mensa.get_menu_price(menus)
     nutritional_values = mensa.get_menu_nutritional_values(menus)
+    if mensa.get_menu_count(menus) == 1: # geschlossen
+            return
     for i in range(mensa.get_menu_count(menus)):
         text +=  str(i+1) + ". " +  name[i] + "\n" +\
                         "- 翻译:"+translate_zh((name[i])) + '\n' +\

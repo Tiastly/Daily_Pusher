@@ -12,7 +12,7 @@ acc_id = os.getenv('Aliyun_acc_id')
 acc_key = os.getenv('Aliyun_acc_key')
 
 def translate_zh(text:str):
-
+    
     client = AcsClient(
         f"{acc_id}",  # 阿里云账号的Access Key ID
         f"{acc_key}",# 阿里云账号Access Key Secret
@@ -28,7 +28,7 @@ def translate_zh(text:str):
         request.set_TargetLanguage("zh")
 
         response = json.loads(client.do_action_with_exception(request))
-        print(response)
+        # print(response)
         ans = response['Data']['Translated']
         code = response['Code']# detail see https://help.aliyun.com/document_detail/158244.html?spm=a2c4g.11186623.0.0.6c1a5c2aHeFwnV
         print(f"{ans},code = {code}")

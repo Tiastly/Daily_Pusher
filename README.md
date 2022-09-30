@@ -5,6 +5,12 @@
 - user只需要在wxPusher中订阅这个应用后就可以每天定时收到推送(每天早八提醒你吃什么中饭)
 - 关于虽然每天只用click就能解决的问题,但是还是做了毫无技术力的调包侠🦸‍♂️的这件事XD
 
+API integration, a pusher, and daily routine. The subscriber can receive the daily menu(including translation and pictures) from the university's canteen and the local weather today from dwd(Deutsche Wetter Dienst). Since everything only consists of modules, so it can easily break up.
+
+Das ist ein kleines Programme mit nur die Abfrage der API. Die Ziel liegt im Tagesmenü von der Mensa sowie den Wetterbericht zu wissen.
+
+**好好吃饭** 大切なものです🌟
+
 # To do
 ## Functions
 - [x] 通过request主动获取uid
@@ -19,17 +25,6 @@
 - [x] 食物图片模块 -> serpapi 
   alternative: Google的API 
 - [ ] xx模块
-## 优化(?)
-- [ ] 运行日志
-- [ ] ~~改成异步模式~~
 
-# 好好吃饭 
-大切なものです🌟
-
-# 库
-```pip install -U wxpusher```\
-```pip install google-search-results```
-
-```pip install aliyun-python-sdk-core-v3```\
-```pip install aliyun-python-sdk-alimt```\
+*要是出问题了后期换一个*
 

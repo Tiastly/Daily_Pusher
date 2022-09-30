@@ -1,4 +1,5 @@
 # weather module
+
 import requests
 import json
 import datetime
@@ -42,8 +43,8 @@ class WeatherReport():
         #the first processing of raw data
         # return: dict of today's temperature.
         record = []
-        for i in range(len(self.raw_record["weather"])):
-            record.append(self.raw_record["weather"][i]["temperature"])
+        for item in self.raw_record["weather"]:
+            record.append(item["temperature"])
 
         return record
 
@@ -61,10 +62,10 @@ class WeatherReport():
         #today's weather icon
         raw_record = self.raw_record
         icon =  {}
-        for i in range(len(raw_record["weather"])):
-            if 'night' not in raw_record["weather"][i]["icon"]:
-                icon[raw_record["weather"][i]["icon"]] = icon.get(raw_record["weather"][i]["icon"],0)+1
-                # icon.append(raw_record["weather"][i]["icon"])
+        for item in raw_record["weather"]:
+            if 'night' not in item["icon"]:
+                icon[item["icon"]] = icon.get(item["icon"],0)+1
+                
         res = sorted(icon.items(),key = lambda x:x[1],reverse = True)
 
         subscribe = Icon_Mapping[res[0][0]]+" "

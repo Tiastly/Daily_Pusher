@@ -29,9 +29,9 @@ def get_foodpic(food: str) -> str:
 
     thumbnail = []
     text_template = ""
-    for i in range(len(organic_results)):
-        if "thumbnail" in organic_results[i].keys():
-            thumbnail.append(organic_results[i]["thumbnail"])
+    for item in organic_results:
+        if "thumbnail" in item.keys():
+            thumbnail.append(item["thumbnail"])
     
     if len(thumbnail) > 1:
         text_template = "<img src={}> or <img src={}>".format(thumbnail[0],thumbnail[1])
