@@ -28,3 +28,6 @@ Das ist ein kleines Programme mit nur die Abfrage der API. Die Ziel liegt im Tag
 
 *要是出问题了后期换一个*
 
+# configuration
+- 使用构建依赖层的方式导入依赖的库，导入`requirements.txt`即可
+  - 否则因为指令集架构的问题（?) `cryptography`导入时候报错

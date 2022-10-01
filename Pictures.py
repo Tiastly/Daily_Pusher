@@ -20,9 +20,9 @@ def get_foodpic(food: str) -> str:
     
     organic_results = []
     # 每个月100次谨慎使用
-    # search = GoogleSearch(params)
-    # results = search.get_dict()
-    # organic_results = results["organic_results"]
+    search = GoogleSearch(params)
+    results = search.get_dict()
+    organic_results = results["organic_results"]
 
     # print(json.dumps(organic_results, indent=4))
 
@@ -42,7 +42,6 @@ def get_foodpic(food: str) -> str:
 
     print(text_template)
 
-    
     return text_template
 
 if __name__ == "__main__":

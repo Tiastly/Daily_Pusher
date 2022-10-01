@@ -19,7 +19,7 @@ endingwords ={
     }
 
 today = datetime.date.today()
-week_day = today.strftime("%A") 
+week_day = today.weekday() 
 
 def random_color() -> str:
     color_code = "0123456789ABCDEF"
@@ -45,7 +45,7 @@ def run():
     pusher = WxPusher()
     uids = get_uids(pusher)
     menu = Mensa.pull_mensa_menu()
-    if week_day == 5 or week_day == 6:
+    if week_day in [5, 6]:
         menu = "Today has no Menu"
         endword = endingwords['WEEKEND']
     elif not menu:
@@ -60,7 +60,7 @@ def run():
         <h1>✨ Thank you for the subscribe ✨</h1>
         </div>
         <hr><b>Today is:</b>
-        <font color={random_color()}>{week_day}</font>
+        <font color={random_color()}>{today.strftime("%A")}</font>
 
         <hr><b>Today's Weather in Braunschweig:</b>
         <font color={random_color()}>{weather_module()}</font>
@@ -79,8 +79,7 @@ def run():
     pusher.send_message(content = content_format ,uids = uids ,token = token)
     # topic
     # pusher.send_message(content = content_format ,uids = uids ,token = token, topicIds=topicIds)
-
-    # push.send_message(content=contents, uids=uids, token=token)
+    
     print("Success!Check it in WeChat:)")
 
 if __name__ == "__main__":

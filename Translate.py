@@ -12,7 +12,7 @@ acc_id = os.getenv('Aliyun_acc_id')
 acc_key = os.getenv('Aliyun_acc_key')
 
 def translate_zh(text:str):
-    
+
     client = AcsClient(
         f"{acc_id}",  # 阿里云账号的Access Key ID
         f"{acc_key}",# 阿里云账号Access Key Secret
@@ -38,7 +38,4 @@ def translate_zh(text:str):
         ans = "cannot translate 😢"
         
     return ans
-
-if __name__ == "__main__":
-    print(translate_zh("Kartoffel-Gemüse-Omelett"))
 
